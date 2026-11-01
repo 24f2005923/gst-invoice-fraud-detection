@@ -2,28 +2,6 @@
 
 An end-to-end Machine Learning and Web Application system designed to identify suspicious patterns, tax discrepancies, and potential fraud in Goods and Services Tax (GST) invoice transactions for Micro, Small, and Medium Enterprises (MSMEs).
 
----
-
-## Table of Contents
-1. [Project Overview](#project-overview)
-2. [Problem Statement & MSME Compliance Context](#problem-statement--msme-compliance-context)
-3. [System Architecture](#system-architecture)
-4. [Technology Stack](#technology-stack)
-5. [Dataset & Fraud Patterns](#dataset--fraud-patterns)
-6. [Feature Engineering (43 Features)](#feature-engineering-43-features)
-7. [Machine Learning Models](#machine-learning-models)
-8. [Model Evaluation & Comparison](#model-evaluation--comparison)
-9. [Ensemble Risk Scoring Engine](#ensemble-risk-scoring-engine)
-10. [Database Architecture (SQLite)](#database-architecture-sqlite)
-11. [REST API Documentation](#rest-api-documentation)
-12. [Web Frontend & Dashboard UI](#web-frontend--dashboard-ui)
-13. [Installation & Setup Guide](#installation--setup-guide)
-14. [Running the System & Tests](#running-the-system--tests)
-15. [Academic Viva Q&A Guide](#academic-viva-qa-guide)
-16. [Compliance & Legal Disclaimer](#compliance--legal-disclaimer)
-
----
-
 ## 1. Project Overview
 
 Under the Indian Goods and Services Tax (GST) framework, businesses claim **Input Tax Credit (ITC)** on taxes paid for inward supplies. However, invoice fraud—such as fake invoicing without actual goods transfer, circular trading, inflated invoice amounts, and tax rate mismatches—causes massive revenue leakages and severe compliance liabilities for honest MSMEs.
