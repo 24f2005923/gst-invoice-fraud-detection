@@ -271,7 +271,7 @@ def build_model_breakdown(invoice_data: Dict[str, Any]) -> List[Dict[str, Any]]:
 
 def get_detailed_explanation(invoice_data: Dict[str, Any]) -> Dict[str, Any]:
     """
-    Full explanatory payload for invoice details view, Copilot, and compliance reports.
+    Full explanatory payload for invoice details view and compliance reports.
     """
     evidence = build_evidence_items(invoice_data)
     models = build_model_breakdown(invoice_data)

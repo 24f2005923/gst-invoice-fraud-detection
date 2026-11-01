@@ -24,7 +24,6 @@ from routes.invoice_routes import invoice_bp
 from routes.report_routes import report_bp
 from routes.upload_routes import upload_bp
 from routes.supplier_routes import supplier_bp
-from routes.copilot_routes import copilot_bp
 
 
 def create_app(config_class=Config):
@@ -42,7 +41,6 @@ def create_app(config_class=Config):
     app.register_blueprint(report_bp)
     app.register_blueprint(upload_bp)
     app.register_blueprint(supplier_bp)
-    app.register_blueprint(copilot_bp)
 
     # ── Context Processors ───────────────────────────────────────────────────
     @app.context_processor
@@ -71,7 +69,7 @@ def create_app(config_class=Config):
             return jsonify({
                 "status": "error",
                 "code": 500,
-                "message": "An internal server error occurred while processing the compliance query."
+                "message": "An internal server error occurred while processing the request."
             }), 500
         return render_template("500.html", error=e), 500
 

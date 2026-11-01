@@ -338,25 +338,6 @@ http://127.0.0.1:5000
 * **Demo Username**: `admin`
 * **Demo Password**: `admin123`
 
-### Run System Test Suites
-
-#### 1. Master Full-System Test (Stage 12)
-```powershell
-python data/test_stage12_full_system.py
-```
-*(Runs 59 comprehensive checks across all 12 stages with 100% pass rate)*
-
-#### 2. End-to-End Integration Test (Stage 11)
-```powershell
-python data/test_stage11_integration.py
-```
-*(Executes 106 integration tests across REST API, database, upload lifecycle, and UI)*
-
-#### 3. Frontend UI Test (Stage 10)
-```powershell
-python data/test_stage10_frontend.py
-```
-
 ---
 
 ## 15. Academic Viva Q&A Guide

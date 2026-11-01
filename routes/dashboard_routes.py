@@ -9,7 +9,7 @@ from flask import (
     Blueprint, render_template, request, redirect, url_for, session, jsonify, flash
 )
 from config import Config
-from database.database import get_dashboard_summary, get_review_queue
+from database.database import get_dashboard_summary, get_review_queue, restore_default_dataset
 from services.supplier_service import get_top_risky_suppliers
 
 dashboard_bp = Blueprint("dashboard", __name__)
@@ -29,8 +29,10 @@ def login_view():
         password = request.form.get("password", "").strip()
 
         if username == Config.DEMO_USER and password == Config.DEMO_PASSWORD:
+            restore_default_dataset()
             session["logged_in"] = True
             session["user"] = username
+            session["data_source"] = "default"
             flash("Successfully logged in as Compliance Officer.", "success")
             return redirect(url_for("dashboard.dashboard_view"))
         else:
@@ -41,7 +43,8 @@ def login_view():
 
 @dashboard_bp.route("/logout")
 def logout_view():
-    """End demo session."""
+    """End demo session and restore the default dataset for the next login."""
+    restore_default_dataset()
     session.clear()
     flash("You have been signed out.", "info")
     return redirect(url_for("dashboard.login_view"))

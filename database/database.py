@@ -48,6 +48,48 @@ def init_db():
     print("     Tables 'invoices' and 'analysis' created successfully.")
 
 
+def replace_active_dataset(invoice_records, analysis_records):
+    """Atomically replace all active invoice, analysis, and investigation records."""
+    conn = sqlite3.connect(DB_PATH)
+    try:
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM investigations;")
+        cursor.execute("DELETE FROM analysis;")
+        cursor.execute("DELETE FROM invoices;")
+
+        invoice_columns = list(invoice_records.columns)
+        invoice_values = [tuple(row) for row in invoice_records[invoice_columns].to_numpy()]
+        if invoice_values:
+            cursor.executemany(
+                f"INSERT INTO invoices ({', '.join(invoice_columns)}) VALUES ({', '.join(['?'] * len(invoice_columns))});",
+                invoice_values
+            )
+
+        analysis_columns = list(analysis_records.columns)
+        analysis_values = [tuple(row) for row in analysis_records[analysis_columns].to_numpy()]
+        if analysis_values:
+            cursor.executemany(
+                f"INSERT INTO analysis ({', '.join(analysis_columns)}) VALUES ({', '.join(['?'] * len(analysis_columns))});",
+                analysis_values
+            )
+
+        conn.commit()
+    except Exception:
+        conn.rollback()
+        raise
+    finally:
+        conn.close()
+
+
+def restore_default_dataset():
+    """Restore the original packaged invoices and their existing analysis results."""
+    invoices_path = os.path.join(ROOT_DIR, "data", "gst_invoices.csv")
+    ensemble_path = os.path.join(ROOT_DIR, "results", "ensemble_results.csv")
+    invoice_records = pd.read_csv(invoices_path)
+    analysis_records = pd.read_csv(ensemble_path)
+    replace_active_dataset(invoice_records, analysis_records)
+
+
 def populate_database(invoices_path: str = None, ensemble_path: str = None):
     """
     Populate SQLite database from raw CSVs (gst_invoices.csv and ensemble_results.csv).
