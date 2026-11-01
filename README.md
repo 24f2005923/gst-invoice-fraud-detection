@@ -338,32 +338,4 @@ http://127.0.0.1:5000
 * **Demo Username**: `admin`
 * **Demo Password**: `admin123`
 
----
 
-## 15. Academic Viva Q&A Guide
-
-### Q1: Why did you use unsupervised anomaly detection instead of supervised classification?
-> **Answer**: Real-world GST filing data has virtually zero reliable ground-truth labels at the time invoices are submitted. Furthermore, fraud tactics evolve constantly (e.g., circular trading, new entity syndicates), making supervised models blind to novel attack vectors. Unsupervised learning models the probability distribution and density of normal business transactions and flags deviations without requiring historical fraud labels.
-
-### Q2: Why combine three different algorithms (Isolation Forest, LOF, Z-Score)?
-> **Answer**: Each model has a fundamentally different mathematical inductive bias:
-> * **Isolation Forest** isolates global outliers via random recursive axis-aligned tree partitioning.
-> * **LOF** measures local density ratios, catching micro-clusters of fraud (e.g., subtle discount variations within a specific product category).
-> * **Statistical Z-Score** provides fast, parametric standard deviation bounds and pinpoint feature attribution.
-> Fusing all three achieves **95.80% recall** while keeping false positives low.
-
-### Q3: How do you justify the 40% - 40% - 20% ensemble weighting?
-> **Answer**: Isolation Forest and LOF explore multi-dimensional non-linear interactions across the 43-feature space and each receive 40% weight. Z-Score is univariate and serves as an extreme statistical sanity check, weighted at 20%. The consensus calibration boosts confidence: when all three agree, precision reaches **91.67%**.
-
-### Q4: Does the system prove that an invoice is fraudulent?
-> **Answer**: No. In accordance with legal and compliance standards, anomaly detection identifies **statistical irregularities** and **variance from normal business behavior**. Flagged invoices are categorized as *"suspicious"*, *"potentially anomalous"*, or *"requiring review"*. A qualified human compliance auditor must perform the final review.
-
-### Q5: How is the database organized for high-concurrency access?
-> **Answer**: We utilize SQLite with SQLAlchemy scoped sessions (`scoped_session(sessionmaker(...))`) to guarantee thread safety across Flask worker threads. Queries are optimized with 11 B-tree indexes on lookup columns such as `supplier_gstin`, `risk_level`, and `risk_score`.
-
----
-
-## 16. Compliance & Legal Disclaimer
-
-> **IMPORTANT COMPLIANCE NOTE**:
-> This software is a **decision-support and triage system** built for academic and compliance auditing demonstration. Classification of a transaction as "anomalous", "suspicious", or "high risk" is based on mathematical variance and unsupervised pattern recognition. It does **not** constitute legal or statutory proof of tax evasion or fraud. All flagged invoices must be investigated by authorized compliance officers in accordance with applicable GST laws and regulations.
